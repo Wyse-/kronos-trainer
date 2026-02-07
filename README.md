@@ -1,25 +1,29 @@
-![Kronos Logo](https://imgur.com/vlOi8YW.png)
+# Kronos Trainer
+The idea is to provide a user friendly way to practice OSRS bosses, that *actually* feels like the real game.  
+This is based on the [Kronos](https://rune-server.org/threads/kronos-osrs-semi-custom-server-deob-client-multi-world-support-184.696766/) private server code, which is mostly untouched, except for a few small fixes.  
+The server runs locally on your own machine.
 
----
+# Notes
+- Kronos is based on the 184 version of the game, which is roughly from early 2019: anything released after that time is not be available.
+- The client runs on an older version of [RuneLite](https://github.com/runelite/runelite), available plugins are limited.
+- Remember this is running on private server code, expect bugs and things not working perfectly.
 
-**This was released on [Rune-Server](https://www.rune-server.ee/runescape-development/rs2-server/downloads/696766-kronos-osrs-semi-custom-server-deob-client-multi-world-support-184-a.html) by [Patrity](https://www.rune-server.ee/members/patrity/).**
+# Tested Bosses
+- [x] [TzHaar Fight Cave](https://oldschool.runescape.wiki/w/TzHaar_Fight_Cave)
 
----
+# Requirements
+- Windows/Linux (macOS untested)
+- JRE/JDK 11 x64 (download [here](https://adoptium.net/temurin/releases?version=11&os=any&arch=x64))
 
-**This has been updated on 29/01/2026, any changes I made you can see in commit history.**
+# How-to
+1. Download the latest release [here](https://github.com/Wyse-/kronos-trainer/releases) and extract.
+2. Run `kronos-trainer.ps1` on Windows, or `kronos-trainer.sh` on Linux.
+3. After everything loads, login with user "admin" and any password.
+4. After configuring your character, use [developer commands](https://github.com/Wyse-/kronos-trainer/wiki/Developer-Commands) to set your skills and items.
+5. Cross the bridge and use the "Kronos Teleporter" (i.e. the glowing red orb) to teleport.
 
----
-
-**Gradle has been updated to 8.14, Kotlin Updated to 2.1.21, JDA to 5.5.1 and Runelite has been fixed**
-
----
-
-> Kronos was a semi-custom server that was hosted from May to September of 2020. We launched with 150 players online and maintained stability well.
-> Our goal was to have the features of a modern deob client such as gpu rendering while also having high quality custom content.
-> This package has been collecting dust on my github repository and I'd like to have it out to the community in hopes that it may inspire some users to move away from 317 servers and into deobs even if they want to do custom servers.
-> ReverendDread has already released our cache editor which was written for Kronos. That can be found [HERE](https://www.rune-server.ee/runescape-development/rs2-client/tools/695878-open-source-osrs-deob-cache-tools.html). Be sure to thank his post!
->
-> Most notably is the way item attributes and upgrades work. On each item object there is also an optional list of attributes that can be added fairly easily.
-> This server contains most content up to TOB and we started a good bit of work on it before closing. The interfaces and party systems are done, combat it left.
->
-> You can learn more about what there server has to offer in our [advertisement thread](https://www.rune-server.ee/runescape-development/rs2-server/advertise/690549-kronos-first-osrs-deob-custom-server-just-released.html)
+# Credits
+- Patrity
+- Leif-Yggdrasil
+- Oddly
+- [The original Kronos developers](https://rune-server.org/threads/kronos-osrs-semi-custom-server-deob-client-multi-world-support-184.696766/#post-5722001)
