@@ -976,26 +976,26 @@ public class CommandHandler implements Incoming {
             case "setlvl":
             case "setlevels":
             case "setlevel": {
-//                player.dialogue(
-//                        new OptionsDialogue(
-//                                new Option("Set Attack", () -> TabStats.setLevel(player, StatType.Attack)),
-//                                new Option("Set Strength", () -> TabStats.setLevel(player, StatType.Strength)),
-//                                new Option("Set Defence", () -> TabStats.setLevel(player, StatType.Defence)),
-//                                new Option("Set Ranged", () -> TabStats.setLevel(player, StatType.Ranged)),
-//                                new Option("Next Page", () -> {
-//                                    player.dialogue(
-//                                            new OptionsDialogue(
-//                                                    new Option("Set Prayer", () -> TabStats.setLevel(player, StatType.Prayer)),
-//                                                    new Option("Set Magic", () -> TabStats.setLevel(player, StatType.Magic)),
-//                                                    new Option("Set Hitpoints", () -> TabStats.setLevel(player, StatType.Hitpoints))
-//                                            )
-//                                    );
-//                                })
-//                        )
-//                );
-                int id = Integer.parseInt(args[0]);
-                int level = Integer.parseInt(args[1]);
-                player.getStats().set(StatType.values()[id], level);
+                player.dialogue(
+                        new OptionsDialogue(
+                                new Option("Set Attack", () -> TabStats.setLevel(player, StatType.Attack)),
+                                new Option("Set Strength", () -> TabStats.setLevel(player, StatType.Strength)),
+                                new Option("Set Defence", () -> TabStats.setLevel(player, StatType.Defence)),
+                                new Option("Set Ranged", () -> TabStats.setLevel(player, StatType.Ranged)),
+                                new Option("Next Page", () -> {
+                                    player.dialogue(
+                                            new OptionsDialogue(
+                                                    new Option("Set Prayer", () -> TabStats.setLevel(player, StatType.Prayer)),
+                                                    new Option("Set Magic", () -> TabStats.setLevel(player, StatType.Magic)),
+                                                    new Option("Set Hitpoints", () -> TabStats.setLevel(player, StatType.Hitpoints))
+                                            )
+                                    );
+                                })
+                        )
+                );
+//                int id = Integer.parseInt(args[0]);
+//                int level = Integer.parseInt(args[1]);
+//                player.getStats().set(StatType.values()[id], level);
                 return true;
             }
 
@@ -2116,7 +2116,7 @@ public class CommandHandler implements Incoming {
                     ScriptDef def = ScriptDef.get(i);
                     if(def == null)
                         continue;
-                    try(PrintStream ps = new PrintStream(System.getProperty("user.home") + "/Desktop/script_instructions/" + i + ".txt")) {
+                    try(PrintStream ps = new PrintStream(System.getProperty("user.home") + "/.kronos/script_instructions/" + i + ".txt")) {
                         def.print(ps);
                         ps.flush();
                     } catch(Exception e) {
