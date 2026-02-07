@@ -6,19 +6,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.io.*;
 import java.math.BigInteger;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.net.*;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.inject.Inject;
@@ -132,7 +121,6 @@ import net.runelite.rs.api.RSWidget;
 import net.runelite.rs.api.RSWorld;
 import net.runelite.rs.api.RSWorldMap;
 import net.runelite.rs.api.RSWorldMapElement;
-import netscape.javascript.JSObject;
 import org.slf4j.Logger;
 
 @ObfuscatedName("client")
@@ -5213,9 +5201,11 @@ public final class Client extends GameShell implements Usernamed, RSClient {
             var5.packetBuffer.writeByte(clientType); //buffer length
             var5.packetBuffer.writeBytes(rsaBuffer.array, 0, rsaBuffer.offset); //write rsa keys
             int rsaOffset = var5.packetBuffer.offset;
-            InetAddress ip = InetAddress.getLocalHost();
-            NetworkInterface network = NetworkInterface.getByInetAddress(ip);
-            byte[] macAddress = network.getHardwareAddress();
+
+            String worldServerIP = "127.0.0.1";
+            NetworkInterface iface = selectNetworkInterface(worldServerIP);
+            byte[] macAddress = getMacAddress(iface);
+
             var5.packetBuffer.writeByte(macAddress.length);
             var5.packetBuffer.writeBytes(macAddress, 0, macAddress.length);
             var5.packetBuffer.writeString(field10222);
@@ -5653,6 +5643,43 @@ public final class Client extends GameShell implements Usernamed, RSClient {
          return;
       }
 
+   }
+
+   private static NetworkInterface selectNetworkInterface(String serverAddress) throws SocketException, UnknownHostException {
+      // If the ENV Variable OPENRS_IFACE is set, use that variable to get the network interface by name
+      String ifaceName = System.getenv("OPENRS_IFACE");
+      if(ifaceName != null && !ifaceName.isEmpty()) return NetworkInterface.getByName(ifaceName);
+
+      // Iterate through all network interfaces, return the first, if any, that can ping the remote host
+      Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+      while (interfaces.hasMoreElements()) {
+         NetworkInterface iface = interfaces.nextElement();
+         if (canConnect(iface, serverAddress)) return iface;
+      }
+
+      // If we could not find any other active interface, use localhost/loopback interface
+      boolean isLinux = System.getProperty("os.name").toLowerCase().contains("linux");
+      if(isLinux && NetworkInterface.getByName("lo") != null) return NetworkInterface.getByName("lo");
+      else if(isLinux) return NetworkInterface.getByInetAddress(InetAddress.getByName("127.0.0.1"));
+      else return NetworkInterface.getByInetAddress(InetAddress.getLocalHost());
+   }
+
+   private static byte[] getMacAddress(NetworkInterface iface) throws SocketException {
+      // Default MacAddress for local device communication, loopbacks do not use macaddresses
+      if(iface.getHardwareAddress() != null) return iface.getHardwareAddress();
+      else return new byte[]{0x02, 0x00, 0x00, 0x00, 0x00, 0x01};
+   }
+
+   private static boolean canConnect(NetworkInterface iface, String serverAddress) {
+      try {
+         // We do not consider down interfaces nor the loopback, since we set to loopback manually if this method returns false
+         if(iface.isLoopback() || !iface.isUp()) return false;
+
+         InetAddress remoteServer = InetAddress.getByName(serverAddress);
+         return remoteServer.isReachable(iface, 5000, 5000); // 5 seconds timeout
+      } catch (IOException e) {
+         return false;
+      }
    }
 
    @ObfuscatedName("fd")
@@ -6542,7 +6569,6 @@ public final class Client extends GameShell implements Usernamed, RSClient {
          try {
             Client var3 = ViewportMouse.client;
             Object[] var4 = new Object[]{Integer.valueOf(class256.method4656())};
-            JSObject.getWindow(var3).call("resize", var4);
          } catch (Throwable var5) {
             ;
          }
