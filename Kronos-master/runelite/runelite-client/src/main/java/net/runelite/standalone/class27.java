@@ -3,7 +3,6 @@ package net.runelite.standalone;
 import java.applet.Applet;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
-import netscape.javascript.JSObject;
 
 @ObfuscatedName("aj")
 public class class27 {
@@ -13,7 +12,7 @@ public class class27 {
       garbageValue = "-1"
    )
    public static Object method539(Applet var0, String var1) throws Throwable {
-      return JSObject.getWindow(var0).call(var1, (Object[])null);
+      return null;
    }
 
    @ObfuscatedName("z")
@@ -22,6 +21,6 @@ public class class27 {
       garbageValue = "-716931956"
    )
    public static void method538(Applet var0, String var1) throws Throwable {
-      JSObject.getWindow(var0).eval(var1);
+
    }
 }

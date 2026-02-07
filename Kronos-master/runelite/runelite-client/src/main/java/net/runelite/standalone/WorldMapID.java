@@ -8,7 +8,6 @@ import java.net.URL;
 import net.runelite.mapping.ObfuscatedGetter;
 import net.runelite.mapping.ObfuscatedName;
 import net.runelite.mapping.ObfuscatedSignature;
-import netscape.javascript.JSObject;
 
 @ObfuscatedName("ar")
 public class WorldMapID {
@@ -154,8 +153,7 @@ public class WorldMapID {
          try {
             Applet var7 = class37.applet;
             Object[] var5 = new Object[]{(new URL(class37.applet.getCodeBase(), var0)).toString()};
-            Object var3 = JSObject.getWindow(var7).call(var2, var5);
-            var10000 = var3 != null;
+            var10000 = true;
          } catch (Throwable var8) {
             return false;
          }
