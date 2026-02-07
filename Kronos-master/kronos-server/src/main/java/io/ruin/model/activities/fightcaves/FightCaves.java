@@ -43,7 +43,9 @@ public class FightCaves {
 
     private static final Position SE = new Position(2418, 5082, 0);
 
-    private static final Position[] ROTATIONS = {SE, SW, C, NW, SW, SE, S, NW, C, SE, SW, S, NW, C, S}; //https://vgy.me/ItO1Db.png
+    private static final Position[] ROTATIONS = {SE, SW, C, NW, SW, SE, S, NW, C, SE, SW, S, NW, C, S}; //https://osrs.wiki/w/TzHaar_Fight_Cave/Rotations
+
+    private static final int FIGHT_CAVES_MAX_DISTANCE = 32;
 
     /**
      * Separator
@@ -65,6 +67,8 @@ public class FightCaves {
 
     private boolean logoutRequest;
 
+    private int playerMaxDistance;
+
     private FightCaves(Player player, int wave, boolean practice) {
         this.player = player;
         this.wave = wave;
@@ -75,6 +79,8 @@ public class FightCaves {
         player.fightCaves = this;
         player.deathEndListener = (DeathListener.Simple) this::handleDeath;
         player.logoutListener = new LogoutListener().onAttempt(this::allowLogout);
+        playerMaxDistance = player.getNpcUpdater().getMaxDistance();
+        player.getNpcUpdater().setMaxDistance(FIGHT_CAVES_MAX_DISTANCE);
         waveRotationOffset = spawnRotationOffset = Random.get(ROTATIONS.length - 1);
         timer = new ActivityTimer();
         map = new DynamicMap().build(9551, 1);
@@ -136,6 +142,7 @@ public class FightCaves {
             player.fightCaves = null;
             player.deathEndListener = null;
             player.logoutListener = null;
+            player.getNpcUpdater().setMaxDistance(playerMaxDistance);
         }
         player = null;
         map.destroy();
@@ -346,32 +353,12 @@ public class FightCaves {
         player.getMovement().teleport(EXIT);
     }
 
-    private static int getStartingWave(Player player) {
-        if (player.isGroup(PlayerGroup.ZENYTE)) {
-            return 63;
-        } else if (player.isGroup(PlayerGroup.ONYX)) {
-            return 60;
-        } else if (player.isGroup(PlayerGroup.DRAGONSTONE)) {
-            return 56;
-        } else if (player.isGroup(PlayerGroup.DIAMOND)) {
-            return 54;
-        } else if (player.isGroup(PlayerGroup.RUBY)) {
-            return 52;
-        } else if (player.isGroup(PlayerGroup.EMERALD)) {
-            return 50;
-        } else if (player.isGroup(PlayerGroup.SAPPHIRE)) {
-            return 50;
-        } else {
-            return 50;
-        }
-    }
-
     static {
         /**
          * Join
          */
         ObjectAction.register(11833, actions -> {
-            actions[1] = (player, obj) -> join(player, getStartingWave(player), false);
+            actions[1] = (player, obj) -> join(player, 1, false);
             actions[2] = (player, obj) -> player.integerInput("Enter the wave you'd like to practice: (1-63)", wave -> {
                 if(wave < 0 || wave > 63) {
                     player.retryIntegerInput("Invalid wave, enter the wave you'd like to practice: (1-63)");
