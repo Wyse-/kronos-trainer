@@ -16,7 +16,7 @@ import java.util.Map;
 public class MACBan {
 
     private static final Map<String, String> banned_macs = Maps.newHashMap();
-    private static final File store = new File(System.getProperty("user.home") + "/Desktop/kronos/mac_bans.txt");
+    private static final File store = new File(System.getProperty("user.home") + "/.kronos/mac_bans.txt");
 
     static {
         try {
@@ -42,7 +42,7 @@ public class MACBan {
             banned_macs.put(user, mac);
         }
         br.close();
-        //log.info("Loaded {} banned MAC bans.", banned_macs.size());
+        log.info("Loaded {} banned MAC bans.", banned_macs.size());
     }
 
     private static void store(String user, String mac) {

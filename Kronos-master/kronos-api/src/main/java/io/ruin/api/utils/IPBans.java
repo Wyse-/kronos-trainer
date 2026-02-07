@@ -18,7 +18,7 @@ import java.util.Map;
 public class IPBans {
 
     private static final Map<String, String> banned_ips = Maps.newHashMap();
-    private static final File store = new File(System.getProperty("user.home") + "/Desktop/kronos/ip_bans.txt");
+    private static final File store = new File(System.getProperty("user.home") + "/.kronos/ip_bans.txt");
 
     static {
         try {
@@ -44,7 +44,7 @@ public class IPBans {
             banned_ips.put(user, ip);
         }
         br.close();
-        //log.info("Loaded {} banned IPs.", banned_ips.size());
+        log.info("Loaded {} banned IPs.", banned_ips.size());
     }
 
     private static void store(String user, String ip) {

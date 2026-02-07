@@ -22,7 +22,7 @@ import java.util.zip.ZipOutputStream;
 @Slf4j
 public class CharacterBackups {
 
-    private static final String BACKUP_PATH = System.getProperty("user.home") + "/Desktop/Kronos/backups/";
+    private static final String BACKUP_PATH = System.getProperty("user.home") + "/.kronos/backups/";
     private static String CHARACTER_SAVES_PATH;
     private static final ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
 
@@ -32,7 +32,7 @@ public class CharacterBackups {
     public void start() {
         if (World.stage == WorldStage.LIVE) {
             backup = service.scheduleAtFixedRate(this::backup, backup_period, backup_period, TimeUnit.MILLISECONDS);
-            CHARACTER_SAVES_PATH = System.getProperty("user.home") + "/Desktop/Kronos/_saved/players/" + World.stage.name().toLowerCase() + "/" + World.type.name().toLowerCase() + "/";
+            CHARACTER_SAVES_PATH = System.getProperty("user.home") + "/.kronos/_saved/players/" + World.stage.name().toLowerCase() + "/" + World.type.name().toLowerCase() + "/";
         }
     }
 

@@ -22,7 +22,7 @@ public class OfflineMode {
     public static String path;
 
     public static void setPath() throws IOException {
-        File offlineFolder = FileUtils.get(System.getProperty("user.home") + "/Desktop/" + World.type.getWorldName()+"/~development");
+        File offlineFolder = FileUtils.get(System.getProperty("user.home") + "/.kronos/" + World.type.getWorldName() + "/development");
         if(!offlineFolder.exists() && !offlineFolder.mkdirs())
             throw new IOException("Offline mode folder could not be created!");
         path = offlineFolder.getPath();

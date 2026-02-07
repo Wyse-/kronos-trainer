@@ -16,7 +16,7 @@ import java.util.Map;
 public class IPMute {
 
     private static final Map<String, String> ip_mutes = Maps.newHashMap();
-    private static final File store = new File(System.getProperty("user.home") + "/Desktop/kronos/ip_mutes.txt");
+    private static final File store = new File(System.getProperty("user.home") + "/.kronos/ip_mutes.txt");
 
     static {
         try {

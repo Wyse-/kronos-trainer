@@ -16,7 +16,7 @@ import java.util.List;
 public class UUIDBan {
 
     private static final List<String> banned_ips = Lists.newArrayList();
-    private static final File store = new File(System.getProperty("user.home") + "/Desktop/kronos/uuid_bans.txt");
+    private static final File store = new File(System.getProperty("user.home") + "/.kronos/uuid_bans.txt");
 
     static {
         try {
@@ -40,7 +40,7 @@ public class UUIDBan {
             banned_ips.add(token);
         }
         br.close();
-        //log.info("Loaded {} uuid bans.", banned_ips.size());
+        log.info("Loaded {} uuid bans.", banned_ips.size());
     }
 
     private static void store(String uuid) {

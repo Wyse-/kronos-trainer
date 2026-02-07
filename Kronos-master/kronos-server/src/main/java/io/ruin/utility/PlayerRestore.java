@@ -29,7 +29,7 @@ public class PlayerRestore {
             "slayer", "farming", "runecrafting", "hunter", "construction"
     };
 
-    private static final String IPS_PATH = System.getProperty("user.home") + "/Desktop/Kronos/";
+    private static final String IPS_PATH = System.getProperty("user.home") + "/.kronos";
     private static final String CLAIMED_RESTORES = "claimed_restores.txt";
 
     public static void reconstructPlayer(Player player) {
